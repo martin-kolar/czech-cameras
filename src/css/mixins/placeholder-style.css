@@ -1,0 +1,24 @@
+@define-mixin placeholderStyle $color {
+  &.placeholder { /* pro starsi prohlizece pouzivajici polyfill */
+    /* zamerne oddeleno od standardnich, jinak to IE nezna */
+    color: $color;
+  }
+
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+
+  &:-moz-placeholder { /* Firefox 18- */
+    opacity: 1;
+    color: $color;
+  }
+
+  &::-moz-placeholder { /* Firefox 19+ */
+    opacity: 1;
+    color: $color;
+  }
+
+  &:-ms-input-placeholder {
+    color: $color;
+  }
+}

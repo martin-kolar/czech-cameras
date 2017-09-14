@@ -1,0 +1,128 @@
+/* zakladni nastaveni pro vsechny prvky */
+* {
+  box-sizing: border-box;
+  color: #333;
+}
+
+/* zakladni nastaveni pro html */
+html {
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+
+  &.wf-inactive {
+    font-family: Arial, sans-serif;
+  }
+}
+
+/* zakladni nastaveni pro body */
+body {
+  @mixin font-smoothing antialiased, grayscale;
+}
+
+/* zakladni nastaveni pro formularove prvky */
+input, textarea {
+  -webkit-appearance: none;
+}
+
+input, select, textarea {
+  border: 0 none;
+  border-radius: 0;
+  box-shadow: none;
+
+  &:focus {
+    outline: 0;
+    box-shadow: none;
+  }
+}
+
+textarea {
+  @mixin placeholderStyle #969696;
+
+  width: 100%;
+  height: 120px;
+  padding: 11px 17px 9px 17px;
+  font-size: 14px;
+  font-weight: 600;
+  resize: none;
+  color: #5a5a5a;
+  border: 0 none;
+  border-radius: 0;
+  background-color: transparent;
+  background-color: #f2f2f2;
+  box-shadow: none;
+
+  &:focus {
+    padding: 9px 15px 7px 15px;
+    border: 2px solid #b0b0b0;
+  }
+}
+
+/* zakladni nastaveni pro odkazy */
+a, button {
+  cursor: pointer;
+  transition: padding $default-transition-time $default-transition-easing, color $default-transition-time $default-transition-easing, background-color $default-transition-time $default-transition-easing, box-shadow $default-transition-time $default-transition-easing;
+  text-decoration: none;
+
+  &:focus {
+    outline: 0 !important;
+  }
+}
+
+/* zakladni nastaveni pro obrazky */
+img {
+  width: auto;
+  max-width: 100%;
+
+  &.unveil {
+    transition: opacity $default-transition-time $default-transition-easing;
+    opacity: 0;
+  }
+}
+
+/* zakladni nastaveni pro nadpisy */
+h1, h2, h3 {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 36px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 36px;
+}
+
+/* zakladni typografie */
+p, li {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+/* zakladni clear */
+.ca:after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.medium-clear {
+  display: none;
+}
+
+@media all and ($medium) {
+  .medium-clear {
+    display: block;
+
+    &:before, &:after {
+      display: table;
+      clear: both;
+      content: "";
+    }
+  }
+}

@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /gulp/
+Disallow: /gulp-config/
+Disallow: /images/
+Disallow: /src/

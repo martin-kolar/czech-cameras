@@ -1,0 +1,4 @@
+@define-mixin font-smoothing $val, $moz-val {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: $moz-val;
+}
