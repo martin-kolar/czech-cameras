@@ -1,3 +1,5 @@
 gulp/
 node_modules/
 npm-debug.log
+src/setup.php
+src/local.js

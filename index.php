@@ -1,10 +1,12 @@
 <?php
 
-$cssFiles = file_get_contents('./dest/css/css-manifest.json');
+require 'src/setup.php';
+
+$cssFiles = file_get_contents('./css/css-manifest.json');
 $cssFiles = json_decode($cssFiles);
 
-$jsFiles = file_get_contents('./dest/js-manifest.json');
-$jsFiles = json_decode($jsFiles);
+$jsFiles = file_get_contents('./js/js-manifest.json');
+$jsFiles = (array) json_decode($jsFiles);
 
 ?>
 <!DOCTYPE html>
@@ -15,11 +17,11 @@ $jsFiles = json_decode($jsFiles);
 <?php
 	if (count($cssFiles)) {
 		foreach ($cssFiles as $file => $name) {
-			print '		<link href="/dest/css/'.$name.'" rel="stylesheet" type="text/css" media="all">'."\n";
+			print '		<link href="/css/'.$name.'" rel="stylesheet" type="text/css" media="all">'."\n";
 		}
 	}
 	else {
-		print '		<link href="/dest/css/layout.css" rel="stylesheet" type="text/css" media="all">'."\n";
+		print '		<link href="/css/layout.css" rel="stylesheet" type="text/css" media="all">'."\n";
 	}
 ?>
 		<link rel="icon" href="/images/favicon.ico">
@@ -27,28 +29,31 @@ $jsFiles = json_decode($jsFiles);
 		<script type="text/javascript"></script>
 	</head>
 	<body>
-		<select name="road" id="select-road">
-			<option value="">Vyber</option>
-		</select>
-		<select name="roadFrom" id="select-road-from" style="display:none;">
-			<option value="">Vyber</option>
-		</select>
-		<select name="roadTo" id="select-road-to" style="display:none;">
-			<option value="">Vyber</option>
-		</select>
-		<select name="roadName" id="select-road-name" style="display:none;">
-			<option value="">Vyber</option>
-		</select>
+		<header>
+			Silnice/město:
+			<select name="road" id="select-road">
+				<option value="">Vyber</option>
+			</select>
 
-		<p>Last reload: <span id="last-reload-time"></span></p>
+			Upřesnění zadání:
+			<select name="roadFrom" id="select-road-from" class="hide small-select">
+				<option value="">Vyber</option>
+			</select>
+			<select name="roadTo" id="select-road-to" class="hide small-select">
+				<option value="">Vyber</option>
+			</select>
+			<select name="roadName" id="select-road-name" class="hide">
+				<option value="">Vyber</option>
+			</select>
+
+			<p>Last reload: <span id="last-reload-time"></span></p>
+		</header>
 
 		<ul id="cameras-items"></ul>
 	</body>
 	<?php include 'src/parseData.php'; ?>
 <?php
-	foreach ($jsFiles->assets as $file => $name) {
-		print '	<script type="text/javascript" src="/dest/js/webpack/preload/'.$name.'"></script>'."\n";
-	}
+	print '	<script type="text/javascript" src="/js/webpack/preload/'.reset($jsFiles['assets']).'"></script>'."\n";
 ?>
 	<script>load(["global"])</script>
 </html>

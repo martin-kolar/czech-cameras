@@ -7,11 +7,7 @@
 /* zakladni nastaveni pro html */
 html {
   height: 100%;
-  font-family: 'Open Sans', sans-serif;
-
-  &.wf-inactive {
-    font-family: Arial, sans-serif;
-  }
+  font-family: Arial, sans-serif;
 }
 
 /* zakladni nastaveni pro body */
@@ -72,11 +68,6 @@ a, button {
 img {
   width: auto;
   max-width: 100%;
-
-  &.unveil {
-    transition: opacity $default-transition-time $default-transition-easing;
-    opacity: 0;
-  }
 }
 
 /* zakladni nastaveni pro nadpisy */
@@ -109,20 +100,4 @@ p, li {
   display: table;
   clear: both;
   content: "";
-}
-
-.medium-clear {
-  display: none;
-}
-
-@media all and ($medium) {
-  .medium-clear {
-    display: block;
-
-    &:before, &:after {
-      display: table;
-      clear: both;
-      content: "";
-    }
-  }
 }

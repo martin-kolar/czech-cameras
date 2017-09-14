@@ -3,3 +3,59 @@
 @import "mixins/_default.css";
 @import "config/config.css";
 @import "modules/layout.css";
+
+html, body {
+	background-color: black;
+}
+
+.hide {
+	display: none;
+}
+
+select {
+	min-width: 200px;
+	margin-right: 40px;
+
+	&.small-select {
+		min-width: 100px;
+	}
+}
+
+body {
+	padding: 15px;
+}
+
+header {
+	font-size: 14px;
+	color: #ffffff;
+
+	p {
+		display: inline-block;
+		color: #cccccc;
+
+		span {
+			color: #ffffff;
+		}
+	}
+}
+
+#cameras-items {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+
+	li {
+		list-style-type: none;
+		margin: 0 15px 15px 0;
+		padding: 0;
+		display: inline-block;
+
+		h2 {
+			color: #cccccc;
+		}
+
+		img {
+			max-width: 400px;
+		}
+	}
+}

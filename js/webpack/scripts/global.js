@@ -1,6 +1,16 @@
-import ready from '../functions/ready';
+'use strict';
 
-export default function (options = {}) {
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+exports.default = function () {
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
   var roads,
       roadSelect,
       selectRoadFrom,
@@ -10,14 +20,14 @@ export default function (options = {}) {
       timeoutsCounter = 0,
       finalCamerasUrl,
       lastReloadTime,
-      refreshTime = 10;
+      refreshTime = 60;
 
-  let sortNumber = function (a, b) {
+  var sortNumber = function sortNumber(a, b) {
     return a - b;
   };
 
-  let roadChange = function () {
-    let numbers = filterRoadChange();
+  var roadChange = function roadChange() {
+    var numbers = filterRoadChange();
 
     if (typeof numbers[0][1] === 'string') {
       showStringOptions(numbers);
@@ -26,10 +36,10 @@ export default function (options = {}) {
     }
   };
 
-  let filterRoadChange = function () {
-    let numbers = [];
+  var filterRoadChange = function filterRoadChange() {
+    var numbers = [];
 
-    [...cameraData].forEach((row, i) => {
+    [].concat((0, _toConsumableArray3.default)(cameraData)).forEach(function (row, i) {
       if (row[0] == roadSelect.value) {
         numbers.push(row);
       }
@@ -38,11 +48,11 @@ export default function (options = {}) {
     return numbers;
   };
 
-  let roadNameChange = function () {
-    let numbers = filterRoadChange(true);
-    let finalCameras = [];
+  var roadNameChange = function roadNameChange() {
+    var numbers = filterRoadChange(true);
+    var finalCameras = [];
 
-    [...numbers].forEach((row, i) => {
+    [].concat((0, _toConsumableArray3.default)(numbers)).forEach(function (row, i) {
       if (row[1] === selectRoadName.value) {
         finalCameras.push(row);
       }
@@ -51,15 +61,15 @@ export default function (options = {}) {
     showFinalCameras(finalCameras);
   };
 
-  let selectRoadRangeChange = function () {
-    let rangeFrom = selectRoadFrom.value;
-    let rangeTo = selectRoadTo.value;
+  var selectRoadRangeChange = function selectRoadRangeChange() {
+    var rangeFrom = selectRoadFrom.value;
+    var rangeTo = selectRoadTo.value;
 
     if (rangeFrom && rangeTo && rangeFrom <= rangeTo) {
-      let numbers = filterRoadChange(true);
-      let finalCameras = [];
+      var numbers = filterRoadChange(true);
+      var finalCameras = [];
 
-      [...numbers].forEach((row, i) => {
+      [].concat((0, _toConsumableArray3.default)(numbers)).forEach(function (row, i) {
         if (row[1] >= rangeFrom && row[1] <= rangeTo) {
           finalCameras.push(row);
         }
@@ -69,20 +79,19 @@ export default function (options = {}) {
     }
   };
 
-  let showFinalCameras = function (finalCameras) {
-    let timestamp = Date.now();
+  var showFinalCameras = function showFinalCameras(finalCameras) {
+    var timestamp = Date.now();
     camerasItems.innerHTML = '';
 
-    [...finalCameras].forEach((camera, i) => {
-      let cameraLi = document.createElement('li');
-      cameraLi.innerHTML = `<h2>${camera[1]}</h2><img src="${camera[2]}&time=${timestamp}">`;
+    [].concat((0, _toConsumableArray3.default)(finalCameras)).forEach(function (camera, i) {
+      var cameraLi = document.createElement('li');
+      cameraLi.innerHTML = '<h2>' + camera[1] + '</h2><img src="' + returnCameraUrl(camera, timestamp) + '">';
       camerasItems.appendChild(cameraLi);
     });
 
     finalCamerasUrl = finalCameras;
 
     if (!timeoutsCounter) {
-      console.log('settimeout');
       setTimeout(reloadCameras, refreshTime * 1000);
       timeoutsCounter++;
     }
@@ -90,12 +99,20 @@ export default function (options = {}) {
     lastReloadTime.innerHTML = new Date();
   };
 
-  let reloadCameras = function () {
+  var reloadCameras = function reloadCameras() {
     timeoutsCounter--;
     showFinalCameras(finalCamerasUrl);
   };
 
-  let showNumbersOptions = function (numbers) {
+  var returnCameraUrl = function returnCameraUrl(camera, timestamp) {
+    if (camera[3] !== '') {
+      return '/src/img.php?url=' + encodeURIComponent(camera[2]) + '&referer=' + camera[3] + '&time=' + timestamp;
+    } else {
+      return camera[2] + '&time=' + timestamp;
+    }
+  };
+
+  var showNumbersOptions = function showNumbersOptions(numbers) {
     writeOptionsInSelect(selectRoadFrom, numbers, true);
     writeOptionsInSelect(selectRoadTo, numbers, true);
 
@@ -104,7 +121,7 @@ export default function (options = {}) {
     selectRoadName.style.display = 'none';
   };
 
-  let showStringOptions = function (numbers) {
+  var showStringOptions = function showStringOptions(numbers) {
     writeOptionsInSelect(selectRoadName, numbers, false);
 
     selectRoadFrom.style.display = 'none';
@@ -112,13 +129,13 @@ export default function (options = {}) {
     selectRoadName.style.display = 'inline';
   };
 
-  let writeOptionsInSelect = function (select, numbers, withSorting) {
+  var writeOptionsInSelect = function writeOptionsInSelect(select, numbers, withSorting) {
     select.options.length = 0;
     insertOption('Vyber', '', select);
 
-    let writeOptions = [];
+    var writeOptions = [];
 
-    [...numbers].forEach((row, i) => {
+    [].concat((0, _toConsumableArray3.default)(numbers)).forEach(function (row, i) {
       if (writeOptions.indexOf(row[1]) === -1) {
         writeOptions.push(row[1]);
       }
@@ -128,19 +145,19 @@ export default function (options = {}) {
       writeOptions.sort(sortNumber);
     }
 
-    [...writeOptions].forEach((row, i) => {
+    [].concat(writeOptions).forEach(function (row, i) {
       insertOption(row, row, select);
     });
   };
 
-  let insertOption = function (text, value, select) {
-    let option = document.createElement('option');
+  var insertOption = function insertOption(text, value, select) {
+    var option = document.createElement('option');
     option.text = text;
     option.value = value;
     select.add(option);
   };
 
-  ready(() => {
+  (0, _ready2.default)(function () {
     roads = [];
     roadSelect = document.querySelector('#select-road');
     selectRoadFrom = document.querySelector('#select-road-from');
@@ -149,7 +166,7 @@ export default function (options = {}) {
     camerasItems = document.querySelector('#cameras-items');
     lastReloadTime = document.querySelector('#last-reload-time');
 
-    [...cameraData].forEach((row, i) => {
+    [].concat((0, _toConsumableArray3.default)(cameraData)).forEach(function (row, i) {
       if (roads.indexOf(row[0]) === -1) {
         roads.push(row[0]);
 
@@ -163,3 +180,11 @@ export default function (options = {}) {
     selectRoadName.addEventListener('change', roadNameChange);
   });
 };
+
+var _ready = require('../functions/ready');
+
+var _ready2 = _interopRequireDefault(_ready);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+;

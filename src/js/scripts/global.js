@@ -10,7 +10,7 @@ export default function (options = {}) {
     timeoutsCounter = 0,
     finalCamerasUrl,
     lastReloadTime,
-    refreshTime = 10;
+    refreshTime = 60;
 
   let sortNumber = function(a,b) {
     return a - b;
@@ -76,14 +76,13 @@ export default function (options = {}) {
 
     [...finalCameras].forEach((camera, i) => {
       let cameraLi = document.createElement('li');
-      cameraLi.innerHTML = `<h2>${camera[1]}</h2><img src="${camera[2]}&time=${timestamp}">`;
+      cameraLi.innerHTML = `<h2>${camera[1]}</h2><img src="${returnCameraUrl(camera, timestamp)}">`;
       camerasItems.appendChild(cameraLi);
     });
 
     finalCamerasUrl = finalCameras;
 
     if (!timeoutsCounter) {
-      console.log('settimeout');
       setTimeout(reloadCameras, (refreshTime * 1000));
       timeoutsCounter++;
     }
@@ -94,6 +93,15 @@ export default function (options = {}) {
   let reloadCameras = function() {
     timeoutsCounter--;
     showFinalCameras(finalCamerasUrl);
+  }
+
+  let returnCameraUrl = function(camera, timestamp) {
+    if (camera[3] !== '') {
+      return `/src/img.php?url=${encodeURIComponent(camera[2])}&referer=${camera[3]}&time=${timestamp}`;
+    }
+    else {
+      return `${camera[2]}&time=${timestamp}`;
+    }
   }
 
   let showNumbersOptions = function(numbers) {
