@@ -47,6 +47,13 @@ $jsFiles = (array) json_decode($jsFiles);
 			</select>
 
 			<p>Last reload: <span id="last-reload-time"></span></p>
+			Reload:
+			<select name="reloadTime" id="select-reload-time" class="small-select">
+				<option value="10">10</option>
+				<option value="30">30</option>
+				<option value="60" selected="selected">60</option>
+				<option value="120">120</option>
+			</select>
 		</header>
 
 		<ul id="cameras-items"></ul>

@@ -725,6 +725,7 @@ exports.default = function () {
       selectRoadFrom,
       selectRoadTo,
       selectRoadName,
+      selectRefreshTime,
       camerasItems,
       timeoutsCounter = 0,
       finalCamerasUrl,
@@ -794,23 +795,46 @@ exports.default = function () {
 
     [].concat((0, _toConsumableArray3.default)(finalCameras)).forEach(function (camera, i) {
       var cameraLi = document.createElement('li');
-      cameraLi.innerHTML = '<h2>' + camera[1] + '</h2><img src="' + returnCameraUrl(camera, timestamp) + '">';
+      cameraLi.innerHTML = '<h2>' + returnCameraName(camera) + '</h2><img src="' + returnCameraUrl(camera, timestamp) + '">';
       camerasItems.appendChild(cameraLi);
     });
 
     finalCamerasUrl = finalCameras;
+    lastReloadTime.innerHTML = new Date();
+    setTimeoutForImages();
+  };
 
+  var reloadCameras = function reloadCameras() {
+    var items = camerasItems.querySelectorAll('li');
+    var timestamp = Date.now();
+
+    if (items) {
+      [].concat((0, _toConsumableArray3.default)(items)).forEach(function (el, i) {
+        var itemImg = el.querySelector('img');
+        itemImg.setAttribute('src', returnCameraUrl(finalCamerasUrl[i], timestamp));
+      });
+    }
+
+    lastReloadTime.innerHTML = new Date();
+    timeoutsCounter--;
+    setTimeoutForImages();
+  };
+
+  var setTimeoutForImages = function setTimeoutForImages() {
     if (!timeoutsCounter) {
       setTimeout(reloadCameras, refreshTime * 1000);
       timeoutsCounter++;
     }
-
-    lastReloadTime.innerHTML = new Date();
   };
 
-  var reloadCameras = function reloadCameras() {
-    timeoutsCounter--;
-    showFinalCameras(finalCamerasUrl);
+  var returnCameraName = function returnCameraName(camera) {
+    var returnText = camera[1];
+
+    if (camera[4].trim() !== '') {
+      returnText += ' (' + camera[4] + ')';
+    }
+
+    return returnText;
   };
 
   var returnCameraUrl = function returnCameraUrl(camera, timestamp) {
@@ -866,6 +890,10 @@ exports.default = function () {
     select.add(option);
   };
 
+  var changeRefreshTime = function changeRefreshTime() {
+    refreshTime = selectRefreshTime.value;
+  };
+
   (0, _ready2.default)(function () {
     roads = [];
     roadSelect = document.querySelector('#select-road');
@@ -874,6 +902,7 @@ exports.default = function () {
     selectRoadName = document.querySelector('#select-road-name');
     camerasItems = document.querySelector('#cameras-items');
     lastReloadTime = document.querySelector('#last-reload-time');
+    selectRefreshTime = document.querySelector('#select-reload-time');
 
     [].concat((0, _toConsumableArray3.default)(cameraData)).forEach(function (row, i) {
       if (roads.indexOf(row[0]) === -1) {
@@ -887,6 +916,7 @@ exports.default = function () {
     selectRoadFrom.addEventListener('change', selectRoadRangeChange);
     selectRoadTo.addEventListener('change', selectRoadRangeChange);
     selectRoadName.addEventListener('change', roadNameChange);
+    selectRefreshTime.addEventListener('change', changeRefreshTime);
   });
 };
 
@@ -1355,4 +1385,4 @@ module.exports = function (exec, skipClosing) {
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=bundle.d8f5593ad3ff63edd27c.js.map
+//# sourceMappingURL=bundle.36b47ac2aab8b49bdcc3.js.map

@@ -6,6 +6,7 @@ export default function (options = {}) {
     selectRoadFrom,
     selectRoadTo,
     selectRoadName,
+    selectRefreshTime,
     camerasItems,
     timeoutsCounter = 0,
     finalCamerasUrl,
@@ -76,23 +77,46 @@ export default function (options = {}) {
 
     [...finalCameras].forEach((camera, i) => {
       let cameraLi = document.createElement('li');
-      cameraLi.innerHTML = `<h2>${camera[1]}</h2><img src="${returnCameraUrl(camera, timestamp)}">`;
+      cameraLi.innerHTML = `<h2>${returnCameraName(camera)}</h2><img src="${returnCameraUrl(camera, timestamp)}">`;
       camerasItems.appendChild(cameraLi);
     });
 
     finalCamerasUrl = finalCameras;
+    lastReloadTime.innerHTML = new Date();
+    setTimeoutForImages();
+  }
 
+  let reloadCameras = function() {
+    let items = camerasItems.querySelectorAll('li');
+    let timestamp = Date.now();
+
+    if (items) {
+      [...items].forEach((el, i) => {
+        let itemImg = el.querySelector('img');
+        itemImg.setAttribute('src', returnCameraUrl(finalCamerasUrl[i], timestamp));
+      });
+    }
+
+    lastReloadTime.innerHTML = new Date();
+    timeoutsCounter--;
+    setTimeoutForImages();
+  }
+
+  let setTimeoutForImages = function() {
     if (!timeoutsCounter) {
       setTimeout(reloadCameras, (refreshTime * 1000));
       timeoutsCounter++;
     }
-
-    lastReloadTime.innerHTML = new Date();
   }
 
-  let reloadCameras = function() {
-    timeoutsCounter--;
-    showFinalCameras(finalCamerasUrl);
+  let returnCameraName = function(camera) {
+    let returnText = camera[1];
+
+    if (camera[4].trim() !== '') {
+      returnText += ` (${camera[4]})`;
+    }
+
+    return returnText;
   }
 
   let returnCameraUrl = function(camera, timestamp) {
@@ -149,6 +173,10 @@ export default function (options = {}) {
     select.add(option);
   }
 
+  let changeRefreshTime = function() {
+    refreshTime = selectRefreshTime.value;
+  }
+
   ready(() => {
     roads = [];
     roadSelect = document.querySelector('#select-road');
@@ -157,6 +185,7 @@ export default function (options = {}) {
     selectRoadName = document.querySelector('#select-road-name');
     camerasItems = document.querySelector('#cameras-items');
     lastReloadTime = document.querySelector('#last-reload-time');
+    selectRefreshTime = document.querySelector('#select-reload-time');
 
     [...cameraData].forEach((row, i) => {
       if (roads.indexOf(row[0]) === -1) {
@@ -170,5 +199,6 @@ export default function (options = {}) {
     selectRoadFrom.addEventListener('change', selectRoadRangeChange);
     selectRoadTo.addEventListener('change', selectRoadRangeChange);
     selectRoadName.addEventListener('change', roadNameChange);
+    selectRefreshTime.addEventListener('change', changeRefreshTime);
   });
 };

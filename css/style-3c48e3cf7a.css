@@ -577,6 +577,7 @@ header {
 header p {
 		display: inline-block;
 		color: #cccccc;
+		margin-right: 30px;
 	}
 
 header p span {
@@ -594,6 +595,7 @@ header p span {
 		margin: 0 15px 15px 0;
 		padding: 0;
 		display: inline-block;
+		width: 400px;
 	}
 
 #cameras-items li h2 {
@@ -601,7 +603,7 @@ header p span {
 		}
 
 #cameras-items li img {
-			max-width: 400px;
+			max-width: 100%;
 		}
 
-/*# sourceMappingURL=style-47a8ffdf14.css.map */
+/*# sourceMappingURL=style-3c48e3cf7a.css.map */

@@ -13,7 +13,7 @@ foreach ($tempData as $k => $v) {
 
 	if ($k != '0' && $rowData[0] != '' && $rowData[3] == 1) {
 		if (is_numeric(strtr($rowData[1], ',', '.'))) {
-			$number = round(floatval(strtr($rowData[1], ',', '.')), 2);
+			$number = floatval(strtr($rowData[1], ',', '.'));
 		}
 		else {
 			$number = $rowData[1];
@@ -23,7 +23,8 @@ foreach ($tempData as $k => $v) {
 			$rowData[0],
 			$number,
 			$rowData[2],
-			isset($rowData[4]) ? $rowData[4] : ''
+			isset($rowData[4]) ? $rowData[4] : '',
+			isset($rowData[5]) ? $rowData[5] : ''
 		);
 	}
 }
